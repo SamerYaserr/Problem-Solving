@@ -1,5 +1,5 @@
 struct LCA {
-    int n, neutral, lg;
+    int n, lg;
     vector<vector<int>> adj;
     vector<int> depth;
     vector<vector<int>> up, qu;
@@ -17,7 +17,7 @@ struct LCA {
     }
 
     int path(int a, int dist) {
-        int ans = neutral;
+        int ans = 0;
         for (int i = lg; i >= 0; --i) {
             if (dist >= (1 << i)) {
                 ans = query(ans, qu[a][i]);
@@ -74,5 +74,26 @@ struct LCA {
         int lca2 = lca(u, c);
         int lca3 = lca(v, c);
         return lca1 == c or (lca2 == lca1 and lca3 == c) or (lca3 == lca1 and lca2 == c);
+    }
+
+    int calc(int u, int v) {
+        int c = lca(u, v);
+        int distU = distance(u, c);
+        int distV = distance(v, c);
+
+        int ans = path(u, distU) + path(v, distV);
+        return ans;
+    }
+
+    int kthNode(int u, int v, int k) {
+        // k should be  0-indexed
+        int c = lca(u, v);
+        int distU = distance(u, c);
+        int dist = distance(u, v);
+
+        if (k <= distU)
+            return kthAncestor(u, k);
+        else
+            return kthAncestor(v, dist - k);
     }
 };
