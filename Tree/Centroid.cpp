@@ -27,7 +27,7 @@ void solve(int v) {
     preDfs(v, -1);
     int cent = findCent(v, -1, subSize[v]);
     isCent[cent] = true;
-    // update answer
+    
     for (int u : adj[cent]) {
         if (not isCent[u]) {
             solve(u);
