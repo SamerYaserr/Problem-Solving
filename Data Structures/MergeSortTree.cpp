@@ -13,15 +13,15 @@ struct mergeSortTree {
     }
 
     node merge(node& left, node& right) {
-        node t;
-        int ix = 0, iy = 0;
-        while ( ix < left.v.size() and iy < right.v.size() ) {
-            if (left.v[ix] <= right.v[iy]) t.v.push_back(left.v[ix++]);
-            else t.v.push_back(right.v[iy++]);
+        node res;
+        int l = 0, r = 0;
+        while ( l < left.v.size() and r < right.v.size() ) {
+            if (left.v[l] <= right.v[r]) res.v.push_back(left.v[l++]);
+            else res.v.push_back(right.v[r++]);
         }
-        while ( ix < left.v.size() ) t.v.push_back(left.v[ix++]);
-        while ( iy < right.v.size() ) t.v.push_back(right.v[iy++]);
-        return t;
+        while ( l < left.v.size() ) res.v.push_back(left.v[l++]);
+        while ( r < right.v.size() ) res.v.push_back(right.v[r++]);
+        return res;
     }
 
     void build(vector<int>& v, int at, int lx, int rx) {
