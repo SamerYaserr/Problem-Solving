@@ -100,12 +100,8 @@ struct Hash {
     }
 
     int getMirrorHash(int l, int r) {
-        int ret = hash_mirror[r];
-        if (l) {
-            ret = subtract(ret, hash_mirror[l - 1], H.mod);
-            ret = product(ret, H.base_inverse[l], H.mod);
-        }
-        return ret;
+        auto [mirrorL ,mirrorR] = mirrorRange(l, r);
+        return mirrorHash(mirrorL, mirrorR);
     }
 
     pair<int, int> mirrorRange(int l, int r) {
@@ -115,11 +111,15 @@ struct Hash {
     }
 
     int mirrorHash(int l, int r) {
-        auto [mirrorL ,mirrorR] = mirrorRange(l, r);
-        return getMirrorHash(mirrorL, mirrorR);
+        int ret = hash_mirror[r];
+        if (l) {
+            ret = subtract(ret, hash_mirror[l - 1], H.mod);
+            ret = product(ret, H.base_inverse[l], H.mod);
+        }
+        return ret;
     }
 
     bool isPalindrom(int l, int r) {
-        return getHash(l, r) == mirrorHash(l, r);
+        return getHash(l, r) == getMirrorHash(l, r);
     }
 };
